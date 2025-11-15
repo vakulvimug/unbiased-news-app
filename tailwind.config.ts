@@ -57,6 +57,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        bias: {
+          left: "hsl(var(--bias-left))",
+          "left-center": "hsl(var(--bias-left-center))",
+          center: "hsl(var(--bias-center))",
+          "right-center": "hsl(var(--bias-right-center))",
+          right: "hsl(var(--bias-right))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

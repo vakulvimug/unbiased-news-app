@@ -38,6 +38,12 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
+    --bias-left: 221 83% 53%;
+    --bias-left-center: 207 90% 54%;
+    --bias-center: 142 71% 45%;
+    --bias-right-center: 38 92% 50%;
+    --bias-right: 0 72% 51%;
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
