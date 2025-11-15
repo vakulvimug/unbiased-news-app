@@ -3,6 +3,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { ArticleCard } from '@/components/ArticleCard';
+import { HeadlineAnalyzer } from '@/components/HeadlineAnalyzer';
+import { UserStats } from '@/components/UserStats';
 import { Button } from '@/components/ui/button';
 import { LogOut, RefreshCw } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
@@ -39,6 +41,7 @@ export default function Dashboard() {
   const [selectedArticle, setSelectedArticle] = useState<number | null>(null);
   const [relatedArticles, setRelatedArticles] = useState<Article[]>([]);
   const [showRelated, setShowRelated] = useState(false);
+  const [filterBias, setFilterBias] = useState<string | null>(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -94,6 +97,14 @@ export default function Dashboard() {
     source: sources.find((s) => s.id === article.source_id),
   });
 
+  const handleAnalysisComplete = (bias: string) => {
+    setFilterBias(bias);
+  };
+
+  const filteredArticles = filterBias
+    ? articles.filter((a) => a.predicted_bias === filterBias)
+    : articles;
+
   if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -125,16 +136,39 @@ export default function Dashboard() {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        {articles.length === 0 ? (
+        {user && <UserStats userId={user.id} />}
+
+        <HeadlineAnalyzer onAnalysisComplete={handleAnalysisComplete} />
+
+        {filterBias && (
+          <div className="mb-6 flex items-center gap-2">
+            <span className="text-sm text-muted-foreground">
+              Showing articles with bias: <strong>{filterBias}</strong>
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setFilterBias(null)}
+            >
+              Clear Filter
+            </Button>
+          </div>
+        )}
+
+        {filteredArticles.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-lg text-muted-foreground">No articles found</p>
+            <p className="text-lg text-muted-foreground">
+              {filterBias ? 'No articles found with this bias' : 'No articles found'}
+            </p>
             <p className="text-sm text-muted-foreground mt-2">
-              Articles will appear here once they are added to the database
+              {filterBias
+                ? 'Try analyzing another headline or clear the filter'
+                : 'Articles will appear here once they are added to the database'}
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {articles.map((article) => (
+            {filteredArticles.map((article) => (
               <ArticleCard
                 key={article.id}
                 article={getArticleWithSource(article)}

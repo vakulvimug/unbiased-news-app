@@ -108,6 +108,87 @@ export type Database = {
         }
         Relationships: []
       }
+      user_stats: {
+        Row: {
+          id: string
+          user_id: string
+          current_streak: number
+          longest_streak: number
+          total_analyses: number
+          last_analysis_date: string | null
+          created_at: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          current_streak?: number
+          longest_streak?: number
+          total_analyses?: number
+          last_analysis_date?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          current_streak?: number
+          longest_streak?: number
+          total_analyses?: number
+          last_analysis_date?: string | null
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_badges: {
+        Row: {
+          id: string
+          user_id: string
+          badge_type: string
+          earned_at: string | null
+          created_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          badge_type: string
+          earned_at?: string | null
+          created_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          badge_type?: string
+          earned_at?: string | null
+          created_at?: string | null
+        }
+        Relationships: []
+      }
+      analysis_history: {
+        Row: {
+          id: string
+          user_id: string
+          headline: string
+          predicted_bias: string
+          analyzed_at: string | null
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          headline: string
+          predicted_bias: string
+          analyzed_at?: string | null
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          headline?: string
+          predicted_bias?: string
+          analyzed_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
